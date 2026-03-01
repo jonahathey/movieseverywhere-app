@@ -1,7 +1,4 @@
 {
-  "tmdbApiKey": "API_KEY_HERE",
-  "posterMode": "local",
-  "tmdbImageBase": "https://image.tmdb.org/t/p/w500",
-  "customFields": [],
-  "featured": true
+  "tmdbApiKey": "d7d70036e48a8480e0b98152b40ed939",
+  "posterMode": "local"
 }
