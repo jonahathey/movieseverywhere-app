@@ -1,4 +1,5 @@
 {
   "tmdbApiKey": "",
-  "posterMode": "local"
+  "posterMode": "local",
+  "Featured": "true",
 }
