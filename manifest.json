@@ -2,7 +2,7 @@
   "name": "Movies Everywhere",
   "short_name": "MoviesEW",
   "description": "A personal movie collection tracker — catalog your physical and digital library.",
-  "start_url": "/index.html",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#121212",
   "theme_color": "#121212",
