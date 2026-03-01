@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
   <meta charset="UTF-8">
@@ -125,6 +124,10 @@
 
   <!-- Detail Full-Screen -->
   <div id="detail-fullscreen" class="detail-fullscreen">
+    <!-- Blurred poster background (liquid glass) -->
+    <div class="fs-bg" id="fs-bg" aria-hidden="true"></div>
+    <div class="fs-bg-scrim" aria-hidden="true"></div>
+
     <div class="fs-header glass-bar">
       <button type="button" class="fs-back-btn" aria-label="Back" onclick="App.closeFullScreen()">
         <i class="bi bi-chevron-left"></i>
@@ -132,7 +135,20 @@
       <strong id="fs-title"></strong>
       <div class="fs-header-spacer"></div>
     </div>
-    <img id="fs-poster" class="fs-poster" src="" alt="">
+
+    <!-- Poster hero: cropped strip on mobile, tap to expand -->
+    <div class="fs-poster-hero" id="fs-poster-hero">
+      <img id="fs-poster" class="fs-poster" src="" alt="">
+      <div class="fs-poster-expand-hint">
+        <i class="bi bi-arrows-fullscreen"></i>
+      </div>
+    </div>
+
+    <!-- Expanded poster overlay -->
+    <div class="fs-poster-overlay" id="fs-poster-overlay">
+      <img id="fs-poster-full" class="fs-poster-full" src="" alt="">
+    </div>
+
     <div class="fs-body">
       <p class="detail-meta" id="fs-date"></p>
       <div class="detail-stars" id="fs-rating"></div>

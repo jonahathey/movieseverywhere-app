@@ -55,6 +55,7 @@ const App = (() => {
     bindSearch();
     initMobileUI();
     bindHistoryNav();
+    bindPosterHero();
     renderGrid();
 
     if (config.posterMode === 'remote' && movies.length) {
@@ -405,6 +406,14 @@ const App = (() => {
     posterImg.src = src || '';
     posterImg.alt = movie.title;
     posterImg.style.display = src ? 'block' : 'none';
+
+    // Fullscreen-specific: set blurred BG + full poster for overlay
+    if (prefix === 'fs') {
+      const bg = document.getElementById('fs-bg');
+      if (bg) bg.style.backgroundImage = src ? `url('${src}')` : 'none';
+      const fullImg = document.getElementById('fs-poster-full');
+      if (fullImg) { fullImg.src = src || ''; fullImg.alt = movie.title; }
+    }
   }
 
   function openModal(movie) {
@@ -435,8 +444,26 @@ const App = (() => {
   function closeFullScreen() {
     const fs = document.getElementById('detail-fullscreen');
     if (fs) fs.classList.remove('open');
+    // Also close poster overlay if open
+    const overlay = document.getElementById('fs-poster-overlay');
+    if (overlay) overlay.classList.remove('open');
     document.body.style.overflow = '';
     popDetailState();
+  }
+
+  // ---------- Poster hero: tap to expand / collapse ----------
+  function bindPosterHero() {
+    const hero = document.getElementById('fs-poster-hero');
+    const overlay = document.getElementById('fs-poster-overlay');
+    if (!hero || !overlay) return;
+
+    hero.addEventListener('click', () => {
+      overlay.classList.add('open');
+    });
+
+    overlay.addEventListener('click', () => {
+      overlay.classList.remove('open');
+    });
   }
 
   // ---------- History / back-button support ----------
@@ -474,6 +501,9 @@ const App = (() => {
         fs.classList.remove('open');
         document.body.style.overflow = '';
       }
+      // Close poster overlay too
+      const posterOverlay = document.getElementById('fs-poster-overlay');
+      if (posterOverlay) posterOverlay.classList.remove('open');
 
       detailOpen = false;
       closingViaBack = false;
