@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage — Movies Everywhere</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-sm navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">🎬 Movies Everywhere</a>
+      <span class="badge bg-secondary ms-auto" id="movie-count">0 titles</span>
+    </div>
+  </nav>
+
+  <div class="container mt-4 mb-5">
+    <h4 id="form-heading" class="mb-3">Add Movie</h4>
+
+    <!-- Add / Edit Form -->
+    <form id="movie-form" autocomplete="off">
+      <div class="row g-3">
+
+        <!-- TMDB Search -->
+        <div class="col-12 position-relative" id="search-wrapper">
+          <label class="form-label" for="search-input">Search TMDB</label>
+          <input type="text" class="form-control" id="search-input" placeholder="Type a movie title…">
+          <ul id="tmdb-results" class="tmdb-results" style="display:none"></ul>
+        </div>
+
+        <!-- Hidden / auto-filled fields -->
+        <input type="hidden" id="field-tmdbId">
+        <input type="hidden" id="field-posterPath">
+        <input type="hidden" id="field-genres">
+        <input type="hidden" id="field-director">
+        <input type="hidden" id="field-cast">
+
+        <div class="col-md-6">
+          <label class="form-label" for="field-title">Title</label>
+          <input type="text" class="form-control" id="field-title" required>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label" for="field-releaseDate">Release Date</label>
+          <input type="date" class="form-control" id="field-releaseDate">
+        </div>
+        <div class="col-md-3 d-flex align-items-end gap-2">
+          <button type="submit" class="btn btn-danger flex-fill" id="btn-submit">Add Movie</button>
+          <button type="button" class="btn btn-outline-light" id="btn-cancel" style="display:none">Cancel</button>
+        </div>
+        <div class="col-12">
+          <label class="form-label" for="field-overview">Overview</label>
+          <textarea class="form-control" id="field-overview" rows="2"></textarea>
+        </div>
+
+        <!-- Format checkboxes -->
+        <div class="col-12">
+          <label class="form-label">Formats Owned</label>
+          <div class="row">
+            <div class="col-sm-6">
+              <strong class="text-secondary" style="font-size:.78rem;">Physical</strong>
+              <div class="format-checks mt-1">
+                <div class="form-check"><input class="form-check-input format-cb" type="checkbox" value="VCD" id="fmt-vcd"><label class="form-check-label" for="fmt-vcd">VCD</label></div>
+                <div class="form-check"><input class="form-check-input format-cb" type="checkbox" value="DVD" id="fmt-dvd"><label class="form-check-label" for="fmt-dvd">DVD</label></div>
+                <div class="form-check"><input class="form-check-input format-cb" type="checkbox" value="Blu-Ray" id="fmt-bluray"><label class="form-check-label" for="fmt-bluray">Blu-Ray</label></div>
+                <div class="form-check"><input class="form-check-input format-cb" type="checkbox" value="UHD Blu-Ray" id="fmt-uhd"><label class="form-check-label" for="fmt-uhd">UHD Blu-Ray</label></div>
+                <div class="form-check"><input class="form-check-input format-cb" type="checkbox" value="3D DVD" id="fmt-3d-dvd"><label class="form-check-label" for="fmt-3d-dvd">3D DVD</label></div>
+                <div class="form-check"><input class="form-check-input format-cb" type="checkbox" value="3D Blu-Ray" id="fmt-3d-bluray"><label class="form-check-label" for="fmt-3d-bluray">3D Blu-Ray</label></div>
+              </div>
+            </div>
+            <div class="col-sm-6 mt-3 mt-sm-0">
+              <strong class="text-secondary" style="font-size:.78rem;">Digital</strong>
+              <div class="format-checks mt-1">
+                <div class="form-check"><input class="form-check-input format-cb" type="checkbox" value="Apple TV" id="fmt-atv"><label class="form-check-label" for="fmt-atv">Apple TV</label></div>
+                <div class="form-check"><input class="form-check-input format-cb" type="checkbox" value="YouTube" id="fmt-yt"><label class="form-check-label" for="fmt-yt">YouTube</label></div>
+                <div class="form-check"><input class="form-check-input format-cb" type="checkbox" value="Google Play" id="fmt-gp"><label class="form-check-label" for="fmt-gp">Google Play</label></div>
+                <div class="form-check"><input class="form-check-input format-cb" type="checkbox" value="Fandango At Home" id="fmt-fandango"><label class="form-check-label" for="fmt-fandango">Fandango At Home</label></div>
+                <div class="form-check"><input class="form-check-input format-cb" type="checkbox" value="Xfinity" id="fmt-xfinity"><label class="form-check-label" for="fmt-xfinity">Xfinity</label></div>
+                <div class="form-check"><input class="form-check-input format-cb" type="checkbox" value="Verizon" id="fmt-verizon"><label class="form-check-label" for="fmt-verizon">Verizon</label></div>
+                <div class="form-check"><input class="form-check-input format-cb" type="checkbox" value="DirecTV" id="fmt-directv"><label class="form-check-label" for="fmt-directv">DirecTV</label></div>
+                <div class="form-check"><input class="form-check-input format-cb" type="checkbox" value="Prime Video" id="fmt-prime"><label class="form-check-label" for="fmt-prime">Prime Video</label></div>
+                <div class="form-check"><input class="form-check-input format-cb" type="checkbox" value="Movies Anywhere" id="fmt-ma"><label class="form-check-label" for="fmt-ma">Movies Anywhere</label></div>
+                <div class="form-check"><input class="form-check-input format-cb" type="checkbox" value="Plex" id="fmt-plex"><label class="form-check-label" for="fmt-plex">Plex</label></div>
+              </div>
+              <strong class="text-secondary mt-2 d-block" style="font-size:.78rem;">Digital Quality</strong>
+              <div class="d-flex gap-3 mt-1">
+                <div class="form-check"><input class="form-check-input dq-cb" type="checkbox" value="UHD" id="dq-uhd"><label class="form-check-label" for="dq-uhd">UHD</label></div>
+                <div class="form-check"><input class="form-check-input dq-cb" type="checkbox" value="HD" id="dq-hd"><label class="form-check-label" for="dq-hd">HD</label></div>
+                <div class="form-check"><input class="form-check-input dq-cb" type="checkbox" value="SD" id="dq-sd"><label class="form-check-label" for="dq-sd">SD</label></div>
+                <div class="form-check"><input class="form-check-input dq-cb" type="checkbox" value="3D" id="dq-3d"><label class="form-check-label" for="dq-3d">3D</label></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- Rating -->
+        <div class="col-md-6">
+          <label class="form-label">Rating</label>
+          <div id="star-picker" class="d-flex align-items-center gap-1"></div>
+        </div>
+
+        <!-- Tags -->
+        <div class="col-md-6">
+          <label class="form-label">Tags</label>
+          <div class="d-flex gap-2 mb-1">
+            <input type="text" class="form-control form-control-sm" id="tag-input" placeholder="Type a tag & press Enter…">
+            <button type="button" class="btn btn-sm btn-outline-light" id="tag-add-btn">Add</button>
+          </div>
+          <div id="tag-list" class="d-flex flex-wrap gap-1"></div>
+        </div>
+
+        <!-- Custom fields -->
+        <div class="col-12">
+          <label class="form-label">Custom Fields <span class="text-secondary" style="font-size:.78rem">(from config.json)</span></label>
+          <div id="custom-field-checks" class="d-flex flex-wrap gap-3"></div>
+        </div>
+      </div>
+    </form>
+
+    <hr class="my-4 border-secondary">
+
+    <!-- Action buttons -->
+    <div class="d-flex flex-wrap gap-2 mb-3">
+      <button class="btn btn-success" onclick="Manage.exportJson()">💾 Save / Download JSON</button>
+      <button class="btn btn-outline-light" onclick="Manage.importJson()">📂 Import JSON</button>
+      <a href="index.html" class="btn btn-outline-light ms-auto">← Back to Library</a>
+    </div>
+
+    <!-- Movie table -->
+    <div class="table-responsive">
+      <table class="table table-dark table-striped table-hover manage-table">
+        <thead>
+          <tr>
+            <th style="width:80px">TMDB ID</th>
+            <th>Title</th>
+            <th style="width:120px">Release</th>
+            <th style="width:80px">Rating</th>
+            <th>Formats</th>
+            <th style="width:100px" class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="movies-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>Movies Everywhere &copy; 2026</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/manage.js"></script>
+</body>
+</html>
